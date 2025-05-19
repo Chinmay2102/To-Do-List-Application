@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List with Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-8">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Todo List</h2>
+            
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <input type="text" id="taskInput" placeholder="What needs to be done?" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <button id="addButton" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                    Add Task
+                </button>
+            </div>
+
+            <ul id="taskList" class="space-y-2">
+                <!-- Tasks will be added here -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let taskInput = document.getElementById('taskInput');
+        let addButton = document.getElementById('addButton');
+        let taskList = document.getElementById('taskList');
+
+        function addTask() {
+            let taskText = taskInput.value.trim();
+
+            if (!taskText) {
+                alert('Please enter a task!');
+                return;
+            }
+
+            let listItem = document.createElement('li');
+            listItem.className = 'flex justify-between items-center bg-gray-50 p-3 rounded-lg';
+
+            let taskContent = document.createElement('div');
+            taskContent.className = 'flex-1';
+            taskContent.textContent = taskText;
+
+            let deleteBtn = document.createElement('button');
+            deleteBtn.className = 'px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.onclick = function() {
+                taskList.removeChild(listItem);
+            };
+
+            listItem.appendChild(taskContent);
+            listItem.appendChild(deleteBtn);
+            taskList.appendChild(listItem);
+
+            taskInput.value = '';
+        }
+
+        addButton.onclick = addTask;
+        
+        taskInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') addTask();
+        });
+    </script>
+</body>
+</html>
